@@ -30,6 +30,19 @@ Provide a creative idea in natural language, and this skill will generate struct
 - **Negative Prompting** — Explicitly exclude unwanted elements (watermarks, subtitles, etc.)
 - **Multi-Segment Stitching** — Automatically split videos longer than 15 seconds into extension-chained segments with continuity notes
 
+### Pre-Generation Review
+
+Before writing a prompt, the skill now emits `审核结果：通过 / 需补充 / 需改写 / 拒绝` to catch likely platform blocks, authorization issues, and prompt-quality failures. This is a prompt-level guardrail and does not replace the final Jimeng/Seedance platform review.
+
+The review covers:
+
+- **Platform limits**: 4-15 second duration, extension chaining for longer clips, asset-count limits, and `@图片/@视频/@音频` reference numbering.
+- **Real-person and rights risks**: realistic human-face references, real-person authorization, voice cloning, and celebrity/IP/brand high-likeness replication.
+- **High-risk content**: minor harm, encouragement of self-harm, hateful discrimination, graphic abuse, scams, and materially misleading content.
+- **Prompt QA**: subject clarity, action, camera movement, sound, negative constraints, continuity, and copy-paste readiness.
+
+Note: the skill does not add a dedicated adult nudity/sexual-content review category. It only intervenes when minors, non-consensual real people, illegal behavior, or hard platform limits are involved.
+
 ### Multi-Modal Reference System
 
 Supports the Seedance 2.0 `@` reference syntax for combining multiple input modalities:
@@ -65,7 +78,7 @@ The skill ships with curated vocabularies for:
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/songguoxs/seedance-prompt-skill.git
+git clone https://github.com/eternal1990/seedance-prompt-skill.git
 ```
 
 2. **Copy the skill into your project's `.claude/skills/` directory**
@@ -100,6 +113,10 @@ mkdir -p ~/.claude/skills/seedance
 cp /path/to/seedance-prompt-skill/.claude/skills/seedance/SKILL.md ~/.claude/skills/seedance/SKILL.md
 ```
 
+### Codex Sync
+
+The Codex lightweight skill lives at `~/.codex/skills/seedance-prompt-lite/SKILL.md`. It keeps the compact one-prompt output style while using the same pre-generation review outcome. Restart Codex after updating local skills so the runtime reliably reloads them.
+
 ## Usage
 
 ### Quick Start
@@ -111,6 +128,7 @@ You: 帮我生成一段赛博朋克风格的城市夜景视频提示词
 ```
 
 Claude will ask you a few clarifying questions (duration, aspect ratio, reference materials), then generate 2-3 prompt versions ready to paste into Seedance 2.0.
+If key parameters are missing or the request has platform/authorization risk, Claude will show the review outcome first, then ask, rewrite, or provide a safer alternate direction.
 
 ### Triggering the Skill
 
@@ -164,8 +182,8 @@ Step 4: You refine → adjust timing, camera, dialogue, effects, or style
 **Output:**
 
 ```
-@图片1中的可口可乐饮料，360度高速旋转2圈后，突然停住蓄力分裂成了3个部分进行展示。
-随后分解后的可口可乐饮料罐的上中下三部分快速向内旋转合成，一罐完整的可口可乐饮料，
+@图片1中的自有品牌可乐饮料，360度高速旋转2圈后，突然停住蓄力分裂成了3个部分进行展示。
+随后分解后的饮料罐上中下三部分快速向内旋转合成，一罐完整的自有品牌可乐饮料，
 3D渲染产品展示特效，动感产品特效展示
 
 参考素材：
