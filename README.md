@@ -78,7 +78,7 @@ The skill ships with curated vocabularies for:
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/eternal1990/seedance-prompt-skill.git
+git clone https://github.com/eternal1990/deepdance-prompt-review.git
 ```
 
 2. **Copy the skill into your project's `.claude/skills/` directory**
@@ -91,7 +91,7 @@ cd /path/to/your/project
 mkdir -p .claude/skills/seedance
 
 # Copy the skill file
-cp /path/to/seedance-prompt-skill/.claude/skills/seedance/SKILL.md .claude/skills/seedance/SKILL.md
+cp /path/to/deepdance-prompt-review/.claude/skills/seedance/SKILL.md .claude/skills/seedance/SKILL.md
 ```
 
 3. **Verify installation**
@@ -110,7 +110,7 @@ To make the skill available across all your projects, place it under your home d
 
 ```bash
 mkdir -p ~/.claude/skills/seedance
-cp /path/to/seedance-prompt-skill/.claude/skills/seedance/SKILL.md ~/.claude/skills/seedance/SKILL.md
+cp /path/to/deepdance-prompt-review/.claude/skills/seedance/SKILL.md ~/.claude/skills/seedance/SKILL.md
 ```
 
 ### Codex Sync
