@@ -29,6 +29,7 @@ Provide a creative idea in natural language, and this skill will generate struct
 - **Technical Parameter Specification** — Set aspect ratio, frame rate, color grading, and lens style upfront
 - **Negative Prompting** — Explicitly exclude unwanted elements (watermarks, subtitles, etc.)
 - **Multi-Segment Stitching** — Automatically split videos longer than 15 seconds into extension-chained segments with continuity notes
+- **Deepdance Desire Mode** — Turn love, desire, restraint, and surrender into timestamped pseudo-documentary storyboards with rough camera presence, fourth-wall pressure, and high-contrast visual language
 
 ### Pre-Generation Review
 
@@ -58,6 +59,7 @@ Supports the Seedance 2.0 `@` reference syntax for combining multiple input moda
 - **Xianxia / Fantasy Animation** — Cinematic martial arts, spell effects, transformation sequences
 - **Science Education** — 4K medical CGI, transparent anatomy visualizations
 - **Music Videos / Beat Sync** — Widescreen compositions, multi-image beat matching
+- **Deepdance / Love & Desire** — Documentary impulse POV, cyber-rococo desire, and silence-of-desire mappings for high-tension emotional visuals
 
 ### Built-in Prompt Asset Libraries
 
@@ -65,6 +67,7 @@ The skill ships with curated vocabularies for:
 
 - **Camera Language** — Shot types, camera movements, angles, pacing, focus, transitions
 - **Visual Styles** — Film grains, color palettes, art movements, lighting setups, animation styles
+- **Desire Tension Language** — handheld breathing shake, direct lens contact, macro proximity, sweat, cloth friction, neon chiaroscuro, and material contrast
 
 ## Installation
 
