@@ -1,10 +1,23 @@
 [English](./README.md) | [中文](./README_zh.md)
 
-# Seedance 视频提示词 Skill — Claude Code 插件
+# Deepdance Prompt Review — 终端 AI 视频提示词框架
 
-一个 Claude Code 自定义 Skill，让 Claude 成为专业的 AI 视频提示词工程师，专为字节跳动 **Seedance 2.0**（即梦）视频生成平台打造。
+一个可在多种终端 AI Agent / CLI / Skill 系统中复用的视频提示词框架，专为 **Seedance 2.0 / 即梦** 的中文视频生成工作流设计。
 
-只需用自然语言描述你的创意想法，Skill 会自动生成结构化、可直接复制到即梦平台使用的高质量中文视频提示词，助你产出电影级 AI 视频。
+它把自然语言创意转成带生成前审核、模式路由、多模态引用、时长策略和 Deepdance 欲望张力模式的结构化中文提示词，可直接复制到即梦平台使用。
+
+## 框架定位
+
+- **通用框架**：可复制到任何支持 `system prompt`、`skill` 或长指令注入的终端 AI 工具。
+- **Claude Code adapter**：仓库内置 `.claude/skills/seedance/SKILL.md`，可按 Claude Code skill 方式安装。
+- **Codex adapter**：可同步到 `~/.codex/skills/seedance-prompt-lite/SKILL.md`，保留轻量一键出 prompt 风格。
+
+## 适用终端
+
+- Claude Code
+- Codex
+- OpenClaw / Hermes / Artemis 等支持本地 skill 或 instruction 的 agent CLI
+- 任何可粘贴长 `system prompt` 的终端 AI 工具
 
 ## 功能特性
 
@@ -69,86 +82,89 @@ Skill 内置了专业的词汇库：
 - **视觉风格** — 画面质感、影像风格、色调氛围、艺术风格、光影效果、动画风格
 - **欲望张力词库** — 手持呼吸晃动、直视镜头、极近微距、汗水、衣料摩擦、霓虹明暗交界和材质反差
 
-## 安装
+## 使用方式
 
 ### 前置要求
 
-- 已安装并登录 [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code)
+- 至少有一个支持长指令、skill 或 system prompt 的终端 AI 工具
 - 拥有 [即梦平台](https://jimeng.jianying.com) (Seedance 2.0) 账号，用于使用生成的提示词
 
-### 安装步骤
-
-1. **克隆仓库**
+### 克隆仓库
 
 ```bash
-git clone https://github.com/eternal1990/deepdance-prompt-review.git
+git clone https://github.com/0xyingai/deepdance-prompt-review.git
 ```
 
-2. **将 Skill 文件复制到你项目的 `.claude/skills/` 目录**
+### Claude Code adapter
 
 ```bash
-# 进入你要使用该 Skill 的项目目录
 cd /path/to/your/project
 
-# 创建 skills 目录（如不存在）
 mkdir -p .claude/skills/seedance
-
-# 复制 Skill 文件
 cp /path/to/deepdance-prompt-review/.claude/skills/seedance/SKILL.md .claude/skills/seedance/SKILL.md
 ```
 
-3. **验证安装**
+在项目目录启动 Claude Code 后，输入 `/seedance` 或直接描述视频创意即可触发。
 
-在项目目录启动 Claude Code：
-
-```bash
-claude
-```
-
-输入 `/seedance` 或直接描述你的视频创意。Claude 会自动激活 Seedance 提示词 Skill。
-
-### 全局安装（可选）
-
-如果希望在所有项目中都能使用该 Skill，将其放置在用户主目录下：
+全局安装：
 
 ```bash
 mkdir -p ~/.claude/skills/seedance
 cp /path/to/deepdance-prompt-review/.claude/skills/seedance/SKILL.md ~/.claude/skills/seedance/SKILL.md
 ```
 
-### Codex 同步使用
+### Codex adapter
 
-Codex 版轻量 skill 位于 `~/.codex/skills/seedance-prompt-lite/SKILL.md`。它保留“一次输出一个可复制提示词”的风格，同时加入同样的生成前审核结果。更新后重启 Codex 才能稳定加载新 skill。
+```bash
+mkdir -p ~/.codex/skills/seedance-prompt-lite
+# 参考仓库中的 SKILL.md，将框架同步到 Codex 的 seedance-prompt-lite skill
+```
+
+当前本机 Codex 版轻量 skill 路径为 `~/.codex/skills/seedance-prompt-lite/SKILL.md`。它保留“一次输出一个可复制提示词”的风格，同时使用同样的生成前审核结果。更新后重启 Codex 才能稳定加载新 skill。
+
+### 通用终端
+
+把 `.claude/skills/seedance/SKILL.md` 的全文作为 `system instruction`、`skill body` 或长上下文注入到你的终端 AI 工具中即可。
+
+## 核心框架
+
+- **生成前审核 gate**：先输出 `审核结果：通过 / 需补充 / 需改写 / 拒绝`，再决定生成、追问、改写或拒绝。
+- **模式路由**：在纯文本、角色一致性、运镜复刻、视频延长、编辑、音乐卡点、Deepdance 等模式中选择最合适的一类。
+- **多模态引用规范**：统一使用 `@图片1`、`@视频1`、`@音频1`，并写清每个素材用途。
+- **时长策略**：4-15 秒直接生成，超过 15 秒使用首段生成 + `将@视频1延长Xs`。
+- **Deepdance 欲望张力模式**：使用纪实冲动 POV、赛博洛可可迷离、剥离与留白三套视觉映射。
+- **输出合同**：普通提示词、参考素材、长视频和 Deepdance 都有固定结构，保证可复制、可验证。
 
 ## 使用方法
 
 ### 快速开始
 
-启动 Claude Code，描述你想要创建的视频：
+在任意已加载该框架的终端 AI 工具中描述你想要创建的视频：
 
-```
-You: 帮我生成一段赛博朋克风格的城市夜景视频提示词
+```text
+帮我生成一段赛博朋克风格的城市夜景视频提示词，8秒，16:9
 ```
 
-Claude 会先询问几个关键参数（时长、画面比例、参考素材情况），然后生成 2-3 个版本的提示词，可直接复制到即梦平台使用。
-若请求缺少关键参数或存在平台/授权风险，Claude 会先输出 `审核结果`，再追问、改写或给出安全替代方向。
+框架会先判断审核结果和模式，再输出可直接复制到即梦平台的中文提示词。若缺少关键参数或存在平台/授权风险，它会先追问、改写或给出安全替代方向。
 
 ### 触发方式
 
-Skill 会在以下情况自动激活：
+在支持自动 skill 触发的工具里，以下表达会触发该框架：
 
 - 使用 `/seedance` 命令
 - 提到关键词：`Seedance`、`即梦`、`视频提示词`、`视频生成`、`AI视频`、`短剧`、`广告视频`、`视频延长`
-- 要求"生成视频提示词"或"写视频描述"
+- 提到 `Deepdance`、`爱与欲望`、`伪纪录片`、`导演场控摘要`
+- 要求“生成视频提示词”或“写视频描述”
 
 ### 交互流程
 
-Skill 遵循结构化的四步工作流：
+框架遵循结构化工作流：
 
 ```
-第一步：描述创意 → "一段古风武侠打斗"
-第二步：确认参数 → Claude 询问时长、比例、参考素材、风格偏好
-第三步：生成提示词 → ≤15秒生成 2-3 个版本，>15秒输出多段拼接方案
+第零步：生成前审核 → 输出 审核结果
+第一步：识别模式 → 普通 Seedance / Deepdance / 延长 / 编辑 / 卡点等
+第二步：补齐参数 → 时长、比例、素材映射、连续性要求
+第三步：生成提示词 → ≤15秒直接生成，>15秒输出多段拼接方案
 第四步：微调优化 → 调整时间段画面、镜头语言、台词、音效或风格
 ```
 
@@ -165,6 +181,11 @@ Skill 遵循结构化的四步工作流：
 **输出（2-3 个版本之一）：**
 
 ```
+审核结果：通过
+模式：text2video
+默认补全：无
+
+可直接复制：
 15秒仙侠高燃战斗镜头，金红暖色调，0-3秒：低角度特写主角蓝袍衣摆被热浪吹得猎猎飘动，
 双手紧握雷纹巨剑，剑刃赤红电光持续爆闪，地面熔岩翻涌冒泡，远处魔兵嘶吼着冲锋逼近，
 主角低喝"今日，便以这柄剑，镇尔等邪祟！"，伴随剑鸣与熔岩咕嘟声；4-8秒：环绕摇镜
@@ -174,7 +195,31 @@ Skill 遵循结构化的四步工作流：
 不容踏越"，音效收束为余音震颤与渐弱风声。
 ```
 
-### 示例二：多模态参考 — 产品广告
+### 示例二：Deepdance — 爱与欲望
+
+**输入：**
+
+```text
+写一段关于爱与欲望的伪纪录片感视频，12秒，横屏
+```
+
+**输出：**
+
+```text
+审核结果：通过
+模式：deepdance_纪实冲动POV
+默认补全：成年角色、16:9、12秒、无字幕无水印
+
+导演场控摘要：
+- 理智/本能：两个人都在维持距离，但视线和呼吸已经先一步失控。
+- POV介入：摄影机像被卷入现场，手持轻晃，角色数次直视镜头。
+- 视觉反差：冷白顶光压住温热皮肤，潮湿玻璃和粗糙墙面形成质感冲突。
+
+最终提示词：
+12秒伪纪录片粗粝质感，16:9，成年男女在狭窄后台走廊中无声对峙。0-3秒：手持镜头从门缝后逼近，冷白顶光打在潮湿玻璃上，女主侧脸半明半暗，指尖停在门把手上没有推开，环境音骤降，只剩压低的呼吸声；4-7秒：极近微距拍到男主指节轻微发白、衣料摩擦，镜头因摄影师呼吸产生细小晃动，女主突然抬眼直视镜头，眼神像在挑衅摄影机介入；8-10秒：crash zoom 从两人之间的空隙推到颈侧汗珠，焦点短暂失控后重新对上，走廊霓虹从粉蓝跳到暗红；11-12秒：两人同时后退半步，镜头也被迫后撤，画面停在他们之间没有触碰的距离，视觉上绝对静谧，无字幕，无水印，无露骨动作。
+```
+
+### 示例三：多模态参考 — 产品广告
 
 **输入：**
 
@@ -193,7 +238,7 @@ Skill 遵循结构化的四步工作流：
 - @图片1：可乐产品正面高清图
 ```
 
-### 示例三：短剧对白
+### 示例四：短剧对白
 
 **输入：**
 
@@ -215,7 +260,7 @@ Skill 遵循结构化的四步工作流：
 时长：精准15秒
 ```
 
-### 示例四：超长视频（>15秒）— 分段拼接
+### 示例五：超长视频（>15秒）— 分段拼接
 
 **输入：**
 
@@ -264,7 +309,7 @@ Skill 遵循结构化的四步工作流：
 镜头缓推特写剑修侧脸，音效渐弱。
 ```
 
-### 示例五：一镜到底 — 多图参考
+### 示例六：一镜到底 — 多图参考
 
 **输入：**
 
@@ -328,13 +373,13 @@ Skill 遵循结构化的四步工作流：
 └── README_zh.md                   # 中文文档
 ```
 
-整个 Skill 的逻辑完全包含在一个文件中：`.claude/skills/seedance/SKILL.md`。
+框架主逻辑位于 `.claude/skills/seedance/SKILL.md`。这是 Claude Code adapter 的文件布局，也可作为其他终端 AI 工具的通用 system instruction 来源。
 
 ## 常见问题
 
 ### Skill 没有自动激活怎么办？
 
-确保 `SKILL.md` 文件放置在正确的路径下：`.claude/skills/seedance/SKILL.md`。如果仍然无法激活，尝试直接使用 `/seedance` 命令触发。
+如果使用 Claude Code adapter，确保 `SKILL.md` 文件放置在 `.claude/skills/seedance/SKILL.md`。如果仍然无法激活，尝试直接使用 `/seedance` 命令触发。其他终端工具请确认已把该文件内容注入为 system instruction 或 skill body。
 
 ### 生成的提示词效果不理想？
 
@@ -375,4 +420,4 @@ MIT
 ## 致谢
 
 - [Seedance 2.0](https://jimeng.jianying.com)（即梦）— 字节跳动 AI 视频生成平台
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — Anthropic 可扩展的 Skill 系统
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — 其中一种可运行该框架的 Skill 系统

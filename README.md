@@ -1,10 +1,23 @@
 [English](./README.md) | [中文](./README_zh.md)
 
-# Seedance Prompt Skill for Claude Code
+# Deepdance Prompt Review — Terminal AI Video Prompt Framework
 
-A Claude Code custom skill that turns Claude into a professional AI video prompt engineer for ByteDance's **Seedance 2.0** (即梦) video generation platform.
+A reusable video-prompt framework for terminal AI agents, CLI tools, and skill systems. It is designed for **Seedance 2.0 / Jimeng** Chinese video-generation workflows.
 
-Provide a creative idea in natural language, and this skill will generate structured, production-ready Chinese prompts that you can paste directly into the Seedance 2.0 platform to produce cinematic AI videos.
+Describe a creative idea in natural language, and the framework turns it into structured Chinese prompts with pre-generation review, mode routing, multimodal references, duration strategy, and Deepdance desire-mode visual direction.
+
+## Framework Positioning
+
+- **General framework**: can be pasted into any terminal AI tool that supports `system prompt`, `skill`, or long instruction injection.
+- **Claude Code adapter**: included at `.claude/skills/seedance/SKILL.md`.
+- **Codex adapter**: can be mirrored to `~/.codex/skills/seedance-prompt-lite/SKILL.md` for compact one-prompt output.
+
+## Supported Terminals
+
+- Claude Code
+- Codex
+- OpenClaw / Hermes / Artemis and other agent CLIs that support local skills or instructions
+- Any terminal AI tool that accepts a long `system prompt`
 
 ## Features
 
@@ -69,87 +82,90 @@ The skill ships with curated vocabularies for:
 - **Visual Styles** — Film grains, color palettes, art movements, lighting setups, animation styles
 - **Desire Tension Language** — handheld breathing shake, direct lens contact, macro proximity, sweat, cloth friction, neon chiaroscuro, and material contrast
 
-## Installation
+## Usage
 
 ### Prerequisites
 
-- [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) installed and authenticated
+- A terminal AI tool that supports long instructions, local skills, or system prompts
 - A Seedance 2.0 (即梦) account at [jimeng.jianying.com](https://jimeng.jianying.com) for using the generated prompts
 
-### Steps
-
-1. **Clone the repository**
+### Clone
 
 ```bash
-git clone https://github.com/eternal1990/deepdance-prompt-review.git
+git clone https://github.com/0xyingai/deepdance-prompt-review.git
 ```
 
-2. **Copy the skill into your project's `.claude/skills/` directory**
+### Claude Code adapter
 
 ```bash
-# Navigate to the project where you want to use the skill
 cd /path/to/your/project
 
-# Create the skills directory if it doesn't exist
 mkdir -p .claude/skills/seedance
-
-# Copy the skill file
 cp /path/to/deepdance-prompt-review/.claude/skills/seedance/SKILL.md .claude/skills/seedance/SKILL.md
 ```
 
-3. **Verify installation**
+Start Claude Code in the project directory, then type `/seedance` or describe your video idea.
 
-Start Claude Code in your project directory:
-
-```bash
-claude
-```
-
-Then type `/seedance` or simply describe your video idea. Claude should activate the Seedance prompt skill automatically.
-
-### Alternative: Global Installation
-
-To make the skill available across all your projects, place it under your home directory:
+Global install:
 
 ```bash
 mkdir -p ~/.claude/skills/seedance
 cp /path/to/deepdance-prompt-review/.claude/skills/seedance/SKILL.md ~/.claude/skills/seedance/SKILL.md
 ```
 
-### Codex Sync
+### Codex adapter
+
+```bash
+mkdir -p ~/.codex/skills/seedance-prompt-lite
+# Mirror the framework into Codex's seedance-prompt-lite skill as needed
+```
 
 The Codex lightweight skill lives at `~/.codex/skills/seedance-prompt-lite/SKILL.md`. It keeps the compact one-prompt output style while using the same pre-generation review outcome. Restart Codex after updating local skills so the runtime reliably reloads them.
 
-## Usage
+### Generic terminal AI tools
+
+Use the full contents of `.claude/skills/seedance/SKILL.md` as a `system instruction`, `skill body`, or long context block in your terminal AI tool.
+
+## Core Framework
+
+- **Pre-generation review gate**: emits `审核结果：通过 / 需补充 / 需改写 / 拒绝` before generation.
+- **Mode routing**: selects the right path across text-to-video, consistency, motion clone, extension, edit, beat sync, and Deepdance.
+- **Multimodal reference contract**: uses `@图片1`, `@视频1`, and `@音频1` with explicit asset purposes.
+- **Duration strategy**: generates 4-15 second clips directly and uses first segment + `将@视频1延长Xs` for longer clips.
+- **Deepdance desire mode**: maps love/desire concepts through documentary impulse POV, cyber-rococo desire, and silence-of-desire styles.
+- **Output contract**: keeps normal, reference-driven, long-video, and Deepdance outputs copy-ready and verifiable.
+
+## Usage Flow
 
 ### Quick Start
 
-Start Claude Code and describe what video you want to create:
+In any terminal AI tool that has loaded this framework, describe the video you want:
 
-```
-You: 帮我生成一段赛博朋克风格的城市夜景视频提示词
+```text
+帮我生成一段赛博朋克风格的城市夜景视频提示词，8秒，16:9
 ```
 
-Claude will ask you a few clarifying questions (duration, aspect ratio, reference materials), then generate 2-3 prompt versions ready to paste into Seedance 2.0.
-If key parameters are missing or the request has platform/authorization risk, Claude will show the review outcome first, then ask, rewrite, or provide a safer alternate direction.
+The framework will decide the review outcome and mode first, then output a Chinese prompt ready to paste into Jimeng/Seedance. If key parameters are missing or platform/authorization risk appears, it will ask, rewrite, or provide a safer alternate direction first.
 
 ### Triggering the Skill
 
-The skill activates automatically when you:
+In tools that support automatic skill activation, the framework can be triggered when you:
 
 - Use the `/seedance` command
 - Mention keywords like: `Seedance`, `即梦`, `视频提示词`, `视频生成`, `AI视频`, `短剧`, `广告视频`, `视频延长`
+- Mention `Deepdance`, `love and desire`, `pseudo-documentary`, or `导演场控摘要`
 - Ask to "generate video prompts" or "create Seedance prompts"
 
 ### Interactive Workflow
 
-The skill follows a structured 4-step workflow:
+The framework follows this workflow:
 
 ```
-Step 1: You describe your idea → "一段古风武侠打斗"
-Step 2: Claude confirms parameters → duration, aspect ratio, references, style preferences
-Step 3: Claude generates prompts → 2-3 versions for videos ≤15s, or multi-segment plan for longer videos
-Step 4: You refine → adjust timing, camera, dialogue, effects, or style
+Step 0: Pre-generation review → emit 审核结果
+Step 1: Mode routing → normal Seedance / Deepdance / extension / edit / beat sync
+Step 2: Parameter completion → duration, ratio, asset mapping, continuity
+Step 3: Prompt generation → direct prompt for ≤15s, multi-segment plan for >15s
+Step 4: Refinement → adjust timing, camera, dialogue, sound, or style
 ```
 
 ## Examples
@@ -165,6 +181,11 @@ Step 4: You refine → adjust timing, camera, dialogue, effects, or style
 **Output (one of 2-3 versions):**
 
 ```
+审核结果：通过
+模式：text2video
+默认补全：无
+
+可直接复制：
 15秒仙侠高燃战斗镜头，金红暖色调，0-3秒：低角度特写主角蓝袍衣摆被热浪吹得猎猎飘动，
 双手紧握雷纹巨剑，剑刃赤红电光持续爆闪，地面熔岩翻涌冒泡，远处魔兵嘶吼着冲锋逼近，
 主角低喝"今日，便以这柄剑，镇尔等邪祟！"，伴随剑鸣与熔岩咕嘟声；4-8秒：环绕摇镜
@@ -174,7 +195,31 @@ Step 4: You refine → adjust timing, camera, dialogue, effects, or style
 不容踏越"，音效收束为余音震颤与渐弱风声。
 ```
 
-### Example 2: Multi-Modal Reference — Product Ad
+### Example 2: Deepdance — Love & Desire
+
+**Input:**
+
+```text
+写一段关于爱与欲望的伪纪录片感视频，12秒，横屏
+```
+
+**Output:**
+
+```text
+审核结果：通过
+模式：deepdance_纪实冲动POV
+默认补全：成年角色、16:9、12秒、无字幕无水印
+
+导演场控摘要：
+- 理智/本能：两个人都在维持距离，但视线和呼吸已经先一步失控。
+- POV介入：摄影机像被卷入现场，手持轻晃，角色数次直视镜头。
+- 视觉反差：冷白顶光压住温热皮肤，潮湿玻璃和粗糙墙面形成质感冲突。
+
+最终提示词：
+12秒伪纪录片粗粝质感，16:9，成年男女在狭窄后台走廊中无声对峙。0-3秒：手持镜头从门缝后逼近，冷白顶光打在潮湿玻璃上，女主侧脸半明半暗，指尖停在门把手上没有推开，环境音骤降，只剩压低的呼吸声；4-7秒：极近微距拍到男主指节轻微发白、衣料摩擦，镜头因摄影师呼吸产生细小晃动，女主突然抬眼直视镜头，眼神像在挑衅摄影机介入；8-10秒：crash zoom 从两人之间的空隙推到颈侧汗珠，焦点短暂失控后重新对上，走廊霓虹从粉蓝跳到暗红；11-12秒：两人同时后退半步，镜头也被迫后撤，画面停在他们之间没有触碰的距离，视觉上绝对静谧，无字幕，无水印，无露骨动作。
+```
+
+### Example 3: Multi-Modal Reference — Product Ad
 
 **Input:**
 
@@ -193,7 +238,7 @@ Step 4: You refine → adjust timing, camera, dialogue, effects, or style
 - @图片1：可乐产品正面高清图
 ```
 
-### Example 3: Short Drama with Dialogue
+### Example 4: Short Drama with Dialogue
 
 **Input:**
 
@@ -215,7 +260,7 @@ Step 4: You refine → adjust timing, camera, dialogue, effects, or style
 时长：精准15秒
 ```
 
-### Example 4: Long Video (>15s) — Multi-Segment
+### Example 5: Long Video (>15s) — Multi-Segment
 
 **Input:**
 
@@ -264,7 +309,7 @@ Step 4: You refine → adjust timing, camera, dialogue, effects, or style
 镜头缓推特写剑修侧脸，音效渐弱。
 ```
 
-### Example 5: One-Take Long Shot with Multi-Image References
+### Example 6: One-Take Long Shot with Multi-Image References
 
 **Input:**
 
@@ -325,7 +370,7 @@ Step 4: You refine → adjust timing, camera, dialogue, effects, or style
 └── README.md
 ```
 
-The entire skill logic is contained in a single file: `.claude/skills/seedance/SKILL.md`.
+The framework's main logic lives in `.claude/skills/seedance/SKILL.md`. That path is the Claude Code adapter layout, and the same file can be used as the general system-instruction source for other terminal AI tools.
 
 ## Contributing
 
@@ -351,4 +396,4 @@ MIT
 ## Acknowledgments
 
 - [Seedance 2.0](https://jimeng.jianying.com) by ByteDance for the AI video generation platform
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) by Anthropic for the extensible skill system
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) by Anthropic as one supported skill runtime
